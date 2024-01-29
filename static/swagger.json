@@ -1,0 +1,204 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "API для работы с товарами и пользователями",
+    "description": "RESTful API для управления товарами и пользователями",
+    "version": "1.0.0"
+  },
+  "basePath": "/",
+  "paths": {
+    "/registration": {
+      "post": {
+        "summary": "Регистрация нового пользователя",
+        "parameters": [
+          {
+            "name": "user",
+            "in": "body",
+            "description": "Информация о новом пользователе",
+            "schema": {
+              "$ref": "#/definitions/UserInput"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Пользователь успешно зарегистрирован",
+            "headers": {
+              "access_token": {
+                "type": "string",
+                "description": "Токен доступа",
+                "in": "header"
+              }
+            }
+          },
+          "400": {
+            "description": "Отсутствует информация о новом пользователе или имя пользователя уже занято"
+          }
+        }
+      }
+    },
+    "/login": {
+      "post": {
+        "summary": "Получение токена для аутентификации",
+        "parameters": [
+          {
+            "name": "user",
+            "in": "body",
+            "description": "Информация об аутентификации пользователя",
+            "schema": {
+              "$ref": "#/definitions/UserCredentials"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Токен доступа получен успешно",
+            "headers": {
+              "access_token": {
+                "type": "string",
+                "description": "Токен доступа",
+                "in": "header"
+              }
+            }
+          },
+          "401": {
+            "description": "Неверные учетные данные"
+          }
+        }
+      }
+    },
+    "/logout": {
+      "post": {
+        "summary": "Защищенный маршрут для разлогинивания",
+        "security": [{"JWT": []}],
+        "responses": {
+          "200": {
+            "description": "Успешный выход из системы"
+          }
+        }
+      }
+    },
+    "/favorites": {
+      "get": {
+        "summary": "Получение списка избранных товаров пользователя",
+        "security": [{"JWT": []}],
+        "responses": {
+          "200": {
+            "description": "Список избранных товаров получен успешно",
+            "schema": {
+              "$ref": "#/definitions/FavoritesOutput"
+            }
+          }
+        }
+      }
+    },
+    "/favorites/add": {
+      "post": {
+        "summary": "Добавление товара в избранное пользователя",
+        "security": [{"JWT": []}],
+        "parameters": [
+          {
+            "name": "product_id",
+            "in": "formData",
+            "type": "integer",
+            "required": true,
+            "description": "Идентификатор товара"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Товар успешно добавлен в избранное"
+          }
+        }
+      }
+    },
+    "/favorites/remove": {
+      "delete": {
+        "summary": "Удаление товара из избранного пользователя",
+        "security": [{"JWT": []}],
+        "parameters": [
+          {
+            "name": "product_id",
+            "in": "formData",
+            "type": "integer",
+            "required": true,
+            "description": "Идентификатор товара"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Товар успешно удален из избранного"
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "UserInput": {
+      "type": "object",
+      "properties": {
+        "username": {
+          "type": "string",
+          "description": "Уникальное имя пользователя"
+        },
+        "password": {
+          "type": "string",
+          "description": "Пароль пользователя"
+        }
+      },
+      "required": ["username", "password"]
+    },
+    "UserCredentials": {
+      "type": "object",
+      "properties": {
+        "username": {
+          "type": "string",
+          "description": "Имя пользователя"
+        },
+        "password": {
+          "type": "string",
+          "description": "Пароль пользователя"
+        }
+      },
+      "required": ["username", "password"]
+    },
+    "FavoritesOutput": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/ProductOutput"
+      }
+    },
+    "ProductOutput": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "description": "Идентификатор товара"
+        },
+        "title": {
+          "type": "string",
+          "description": "Наименование товара"
+        },
+        "description": {
+          "type": "string",
+          "description": "Описание товара"
+        },
+        "price": {
+          "type": "integer",
+          "description": "Цена товара"
+        },
+        "image": {
+          "type": "string",
+          "description": "Ссылка на изображение товара"
+        }
+      }
+    }
+  },
+  "securityDefinitions": {
+    "JWT": {
+      "type": "apiKey",
+      "name": "Authorization",
+      "in": "header"
+    }
+  }
+}

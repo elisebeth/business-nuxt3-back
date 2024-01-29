@@ -1,0 +1,36 @@
+swagger: '2.0'
+info:
+  title: 'Get Favorites API'
+  description: 'API for getting user favorites'
+  version: '1.0'
+paths:
+  /favorites:
+    get:
+      summary: 'Get list of user favorites'
+      produces:
+        - application/json
+      responses:
+        200:
+          description: 'List of user favorites obtained successfully'
+          schema:
+            type: array
+            items:
+              type: object
+              properties:
+                id:
+                  type: integer
+                  description: 'Product ID'
+                title:
+                  type: string
+                  description: 'Product title'
+                description:
+                  type: string
+                  description: 'Product description'
+                price:
+                  type: integer
+                  description: 'Product price'
+                image:
+                  type: string
+                  description: 'Product image URL'
+      security:
+        - JWT: []

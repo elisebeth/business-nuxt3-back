@@ -1,0 +1,31 @@
+swagger: '2.0'
+info:
+  title: 'Add to Favorites API'
+  description: 'API for adding a product to user favorites'
+  version: '1.0'
+paths:
+  /favorites/add:
+    post:
+      summary: 'Add a product to user favorites'
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: body
+          description: 'Product ID for adding to favorites'
+          required: true
+          schema:
+            type: object
+            properties:
+              product_id:
+                type: integer
+                description: 'Product ID to add to favorites'
+            required:
+              - product_id
+      responses:
+        200:
+          description: 'Product added to favorites successfully'
+      security:
+        - JWT: []

@@ -1,0 +1,31 @@
+swagger: '2.0'
+info:
+  title: 'Remove from Favorites API'
+  description: 'API for removing a product from user favorites'
+  version: '1.0'
+paths:
+  /favorites/remove:
+    delete:
+      summary: 'Remove a product from user favorites'
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: body
+          description: 'Product ID for removing from favorites'
+          required: true
+          schema:
+            type: object
+            properties:
+              product_id:
+                type: integer
+                description: 'Product ID to remove from favorites'
+            required:
+              - product_id
+      responses:
+        200:
+          description: 'Product removed from favorites successfully'
+      security:
+        - JWT: []

@@ -1,0 +1,14 @@
+swagger: '2.0'
+info:
+  title: 'Logout API'
+  description: 'API for user logout'
+  version: '1.0'
+paths:
+  /logout:
+    post:
+      summary: 'Logout the user'
+      responses:
+        200:
+          description: 'Successfully logged out'
+      security:
+        - JWT: []
