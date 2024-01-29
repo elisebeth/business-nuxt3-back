@@ -1,3 +1,6 @@
 Flask
 Flask-SQLAlchemy
 Flask-JWT-Extended
+Flasgger
+Flask-Swagger-UI
+gunicorn
